@@ -48,7 +48,6 @@ CHROMEDRIVER_VERSION="114.0.5735.90"
 echo "Using Chrome version $CHROME_VERSION" | indent
 echo "Using ChromeDriver version $CHROMEDRIVER_VERSION" | indent
 
-# Download Chrome
 echo "Downloading Chrome" | indent
 ZIP_URL="https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chrome-linux64.zip"
 ZIP_LOCATION="$INSTALL_DIR/chrome.zip"
@@ -62,6 +61,10 @@ ZIP_URL="https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chrom
 ZIP_LOCATION="$INSTALL_DIR/chromedriver.zip"
 curl --silent --show-error --fail --retry 3 --retry-connrefused --connect-timeout 10 -o "${ZIP_LOCATION}" "${ZIP_URL}" | indent
 unzip -q -o "$ZIP_LOCATION" -d "$INSTALL_DIR" | indent
+
+# Movendo o binário chromedriver para o diretório correto
+mv "$INSTALL_DIR/chromedriver_linux64/chromedriver" "$INSTALL_DIR/chromedriver-linux64/chromedriver" | indent
+
 rm -f "$ZIP_LOCATION"
 
 source "$BUILDPACK_DIR/bin/install-chrome-dependencies"

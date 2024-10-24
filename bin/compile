@@ -58,22 +58,20 @@ rm -f "$ZIP_LOCATION"
 
 # Download Chromedriver
 echo "Downloading Chromedriver" | indent
-ZIP_URL="https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+ZIP_URL="https://github.com/Djoulecos/114.0.5735.90/blob/main/chromedriver-linux64.zip"
 ZIP_LOCATION="$INSTALL_DIR/chromedriver.zip"
 curl --silent --show-error --fail --retry 3 --retry-connrefused --connect-timeout 10 -o "${ZIP_LOCATION}" "${ZIP_URL}" | indent
 unzip -q -o "$ZIP_LOCATION" -d "$INSTALL_DIR" | indent
 rm -f "$ZIP_LOCATION"
 
-mv "$INSTALL_DIR/chromedriver" "$INSTALL_DIR/chromedriver-linux64" | indent
-
 source "$BUILDPACK_DIR/bin/install-chrome-dependencies"
 
 echo "Adding executables to PATH" | indent
 mkdir -p "$BUILD_DIR/.profile.d"
-echo "export PATH=\$HOME/.chrome-for-testing/chrome-linux64:\$PATH" >> "$BUILD_DIR/.profile.d/chrome-for-testing.sh"
+echo "export PATH=\$HOME/.chrome-for-testing/chrome-linux64:\$HOME/.chrome-for-testing/chromedriver-linux64:\$PATH" >> "$BUILD_DIR/.profile.d/chrome-for-testing.sh"
 
 # Verify the executables are actually present
-export PATH="$BUILD_DIR/.chrome-for-testing/chrome-linux64:$PATH"
+export PATH="$BUILD_DIR/.chrome-for-testing/chrome-linux64:$BUILD_DIR/.chrome-for-testing/chromedriver-linux64:$PATH"
 which chrome | indent
 which chromedriver | indent
 

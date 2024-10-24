@@ -62,8 +62,16 @@ ZIP_LOCATION="$INSTALL_DIR/chromedriver.zip"
 curl --silent --show-error --fail --retry 3 --retry-connrefused --connect-timeout 10 -o "${ZIP_LOCATION}" "${ZIP_URL}" | indent
 unzip -q -o "$ZIP_LOCATION" -d "$INSTALL_DIR" | indent
 
-# Movendo o binário chromedriver para o diretório correto
-mv "$INSTALL_DIR/chromedriver_linux64/chromedriver" "$INSTALL_DIR/chromedriver-linux64/chromedriver" | indent
+# Listar conteúdo extraído para verificar estrutura de pastas
+echo "Conteúdo extraído do ZIP Chromedriver:" | indent
+ls -l "$INSTALL_DIR/chromedriver_linux64" | indent
+
+# Tentar mover o binário chromedriver baseado na estrutura listada
+if [ -f "$INSTALL_DIR/chromedriver_linux64/chromedriver" ]; then
+  mv "$INSTALL_DIR/chromedriver_linux64/chromedriver" "$INSTALL_DIR/chromedriver-linux64/chromedriver" | indent
+else
+  echo "Erro: Arquivo chromedriver não encontrado na estrutura extraída." | indent
+fi
 
 rm -f "$ZIP_LOCATION"
 

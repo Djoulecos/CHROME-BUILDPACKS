@@ -64,7 +64,7 @@ curl --silent --show-error --fail --retry 3 --retry-connrefused --connect-timeou
 unzip -q -o "$ZIP_LOCATION" -d "$INSTALL_DIR" | indent
 rm -f "$ZIP_LOCATION"
 
-mv "$INSTALL_DIR/chromedriver" "$INSTALL_DIR/chromedriver-linux64" | indent
+cp "$INSTALL_DIR/chromedriver" "$INSTALL_DIR/chromedriver-linux64" | indent && rm "$INSTALL_DIR/chromedriver"
 
 source "$BUILDPACK_DIR/bin/install-chrome-dependencies"
 

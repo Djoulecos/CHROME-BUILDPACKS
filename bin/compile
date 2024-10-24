@@ -42,8 +42,8 @@ if which chrome; then
 fi
 
 # Forçar a instalação da versão 130 do Chrome e ChromeDriver
-CHROME_VERSION="130.0.6723.69"
-CHROMEDRIVER_VERSION="130.0.6723.69"
+CHROME_VERSION="114.0.5735.90"
+CHROMEDRIVER_VERSION="114.0.5735.90"
 
 echo "Using Chrome version $CHROME_VERSION" | indent
 echo "Using ChromeDriver version $CHROMEDRIVER_VERSION" | indent
@@ -58,11 +58,13 @@ rm -f "$ZIP_LOCATION"
 
 # Download Chromedriver
 echo "Downloading Chromedriver" | indent
-ZIP_URL="https://storage.googleapis.com/chrome-for-testing-public/$CHROMEDRIVER_VERSION/linux64/chromedriver-linux64.zip"
+ZIP_URL="https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
 ZIP_LOCATION="$INSTALL_DIR/chromedriver.zip"
 curl --silent --show-error --fail --retry 3 --retry-connrefused --connect-timeout 10 -o "${ZIP_LOCATION}" "${ZIP_URL}" | indent
 unzip -q -o "$ZIP_LOCATION" -d "$INSTALL_DIR" | indent
 rm -f "$ZIP_LOCATION"
+
+mv "$INSTALL_DIR/chromedriver" "$INSTALL_DIR/chromedriver-linux64" | indent
 
 source "$BUILDPACK_DIR/bin/install-chrome-dependencies"
 

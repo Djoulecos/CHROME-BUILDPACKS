@@ -48,6 +48,7 @@ CHROMEDRIVER_VERSION="114.0.5735.90"
 echo "Using Chrome version $CHROME_VERSION" | indent
 echo "Using ChromeDriver version $CHROMEDRIVER_VERSION" | indent
 
+# Download Chrome
 echo "Downloading Chrome" | indent
 ZIP_URL="https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chrome-linux64.zip"
 ZIP_LOCATION="$INSTALL_DIR/chrome.zip"
@@ -61,18 +62,7 @@ ZIP_URL="https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chrom
 ZIP_LOCATION="$INSTALL_DIR/chromedriver.zip"
 curl --silent --show-error --fail --retry 3 --retry-connrefused --connect-timeout 10 -o "${ZIP_LOCATION}" "${ZIP_URL}" | indent
 unzip -q -o "$ZIP_LOCATION" -d "$INSTALL_DIR" | indent
-
-# Listar conteúdo extraído para verificar estrutura de pastas
-echo "Conteúdo extraído do ZIP Chromedriver:" | indent
-ls -l "$INSTALL_DIR/chromedriver_linux64" | indent
-
-# Tentar mover o binário chromedriver baseado na estrutura listada
-if [ -f "$INSTALL_DIR/chromedriver_linux64/chromedriver" ]; then
-  mv "$INSTALL_DIR/chromedriver_linux64/chromedriver" "$INSTALL_DIR/chromedriver-linux64/chromedriver" | indent
-else
-  echo "Erro: Arquivo chromedriver não encontrado na estrutura extraída." | indent
-fi
-
+mv "$INSTALL_DIR/chromedriver" "$INSTALL_DIR/chromedriver-linux64" | indent
 rm -f "$ZIP_LOCATION"
 
 source "$BUILDPACK_DIR/bin/install-chrome-dependencies"
